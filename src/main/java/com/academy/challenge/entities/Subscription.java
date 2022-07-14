@@ -3,6 +3,7 @@ package com.academy.challenge.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,18 +26,17 @@ public class Subscription {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "status_id")
   private Status status;
 
   @Column(nullable = false)
   private LocalDateTime created_at;
 
-  @Column(nullable = false)
   private LocalDateTime updated_at;
 
 }

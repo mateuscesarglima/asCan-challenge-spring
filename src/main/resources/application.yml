@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/academyChallenge
+    username: postgres
+    password: 123456789
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

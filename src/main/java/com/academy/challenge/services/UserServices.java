@@ -1,5 +1,7 @@
 package com.academy.challenge.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ public class UserServices {
   @Transactional
   public Object saveUser(User user) {
     return UserRepository.save(user);
+  }
+
+  public List<User> findAll() {
+    return UserRepository.findAll();
   }
 
 }

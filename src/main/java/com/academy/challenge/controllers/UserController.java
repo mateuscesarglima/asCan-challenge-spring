@@ -34,6 +34,7 @@ public class UserController {
   public ResponseEntity<Object> createUser(@RequestBody @Valid UserDto userDto) {
     var user = new User();
     BeanUtils.copyProperties(userDto, user);
+
     user.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
     return ResponseEntity.status(HttpStatus.CREATED).body(UserServices.saveUser(user));
   }

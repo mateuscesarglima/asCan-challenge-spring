@@ -1,6 +1,8 @@
 package com.academy.challenge.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -23,6 +25,10 @@ public class UserServices {
 
   public List<User> findAll() {
     return UserRepository.findAll();
+  }
+
+  public Optional<User> findById(UUID id) {
+    return UserRepository.findById(id);
   }
 
 }

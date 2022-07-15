@@ -26,7 +26,7 @@ public class Subscription {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.MERGE)
   @JoinColumn(name = "user_id")
   private User user;
 

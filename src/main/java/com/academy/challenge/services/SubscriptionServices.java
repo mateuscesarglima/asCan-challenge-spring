@@ -1,5 +1,7 @@
 package com.academy.challenge.services;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,4 +33,14 @@ public class SubscriptionServices {
     return subscriptionRepository.findById(id);
   }
 
+  public Subscription updateSubscription(UUID id, Subscription subscription) {
+    Subscription newObj = subscriptionRepository.getReferenceById(id);
+    updateData(newObj, subscription);
+    return subscriptionRepository.save(newObj);
+  }
+
+  private void updateData(Subscription newObj, Subscription subscription) {
+    newObj.setStatus(subscription.getStatus());
+    newObj.setUpdated_at(LocalDateTime.now(ZoneId.of("UTC")));
+  }
 }

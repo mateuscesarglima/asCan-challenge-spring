@@ -18,11 +18,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "tb_user")
 public class User {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
-  
+
   @Column(nullable = false, length = 50)
   private String name;
 

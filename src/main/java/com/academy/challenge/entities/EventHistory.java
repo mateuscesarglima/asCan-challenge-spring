@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tb_event_history")
-public class EventStory {
+public class EventHistory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

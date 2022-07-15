@@ -1,5 +1,7 @@
 package com.academy.challenge.services;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +22,7 @@ public class UserServices {
 
   @Transactional
   public Object saveUser(User user) {
+    user.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
     return UserRepository.save(user);
   }
 

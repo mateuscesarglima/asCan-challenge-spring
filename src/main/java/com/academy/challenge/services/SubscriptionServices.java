@@ -47,7 +47,20 @@ public class SubscriptionServices {
   public Subscription updateSubscription(UUID id, Subscription subscription) {
     Subscription newObj = subscriptionRepository.getReferenceById(id);
     updateData(newObj, subscription);
-    return subscriptionRepository.save(newObj);
+    var eventHistory = new EventHistory();
+    if (subscription.getStatus().getStatus_name().equals("CANCELADO")) {
+      eventHistory.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+      eventHistory.setType("SUBSCRIPTION_CANCELED");
+      eventHistory.setSubscription(newObj);
+      eventHistoryRepository.save(eventHistory);
+      return subscriptionRepository.save(newObj);
+    } else {
+      eventHistory.setCreated_at(LocalDateTime.now(ZoneId.of("UTC")));
+      eventHistory.setType("SUBSCRIPTION_RESTARTED");
+      eventHistory.setSubscription(newObj);
+      eventHistoryRepository.save(eventHistory);
+      return subscriptionRepository.save(newObj);
+    }
   }
 
   private void updateData(Subscription newObj, Subscription subscription) {

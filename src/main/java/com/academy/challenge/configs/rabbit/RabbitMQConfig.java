@@ -1,4 +1,4 @@
-package com.academy.challenge.configs.DateConfig;
+package com.academy.challenge.configs.rabbit;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -16,6 +16,11 @@ public class RabbitMQConfig {
   @Bean
   Queue queueCreateSub() {
     return new Queue("subscription.v1.subscription-status");
+  }
+
+  @Bean
+  Queue queueUpdateSub() {
+    return new Queue("subscription.v1.subscription-status-update");
   }
 
   @Bean

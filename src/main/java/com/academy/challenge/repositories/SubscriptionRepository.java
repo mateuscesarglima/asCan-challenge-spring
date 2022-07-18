@@ -8,4 +8,6 @@ import com.academy.challenge.entities.Subscription;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
 
+  Subscription findByUserName(String name);
+
 }

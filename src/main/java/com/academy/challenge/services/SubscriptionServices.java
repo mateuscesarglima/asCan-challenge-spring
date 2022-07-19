@@ -55,9 +55,11 @@ public class SubscriptionServices {
 
   @RabbitListener(queues = "subscription.v1.subscription-status-update")
   public void updateSubscription(SubscriptionDto subscriptionDto) {
+
     var subscription = new Subscription();
     BeanUtils.copyProperties(subscriptionDto, subscription);
     Subscription newObj = subscriptionRepository.findByUserName(subscription.getUser().getName());
+
     updateData(newObj, subscription);
     if (subscription.getStatus().getStatus_name().equals("CANCELED")) {
       var eventHistory = new EventHistory();
@@ -76,10 +78,22 @@ public class SubscriptionServices {
     }
   }
 
-  private void updateData(Subscription newObj, Subscription subscription) {
-    Status status = new Status();
-    status.setStatus_name(subscription.getStatus().getStatus_name());
-    newObj.setStatus(status);
-    newObj.setUpdated_at(LocalDateTime.now(ZoneId.of("UTC")));
+  public Subscription findByUserName(String name) {
+    return subscriptionRepository.findByUserName(name);
   }
+
+  private void updateData(Subscription newObj, Subscription subscription) {
+    if (subscription.getStatus().getStatus_name().equals("CANCELED")) {
+      Status status = new Status();
+      status.setStatus_name(subscription.getStatus().getStatus_name());
+      newObj.getStatus().setStatus_name("CANCELED");
+      newObj.setUpdated_at(LocalDateTime.now(ZoneId.of("UTC")));
+    } else {
+      Status status = new Status();
+      status.setStatus_name(subscription.getStatus().getStatus_name());
+      newObj.getStatus().setStatus_name("ACTIVE");
+      newObj.setUpdated_at(LocalDateTime.now(ZoneId.of("UTC")));
+    }
+  }
+
 }

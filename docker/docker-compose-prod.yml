@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  # POSTGRES DATABASE
+  postgres:
+    image: postgres
+    restart: always
+    container_name: postgres-prod
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: academyChallenge
+    networks:
+      - production
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-prod
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./dados:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+    networks:
+      - production
+
+  #API SPRING BOOT
+  application:
+    build:
+      dockerfile: Dockerfile
+      context: "../"
+    container_name: application-prod
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 123456789
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: admin
+      RABBITMQ_PASS: 123456
+    depends_on:
+      - rabbitmq
+      - postgres
+    ports:
+      - 8080:8080
+    networks:
+      - production
+
+networks:
+  production:
+    driver: bridge

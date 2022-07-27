@@ -10,55 +10,43 @@ We are still working on improvements to this project.</span>
 3. build the project in your preferred IDE.
 4. If you are using [VScode](https://code.visualstudio.com/download) you just need to open the file project and wait the build automatically.
 
+## Application
+- After you cloned the application, you need to open file project and build the project.
+- inside the main directory you need to run the following command on terminal:
+```bash
+mvn install -DskipTests
+```
+
 ## [Docker](https://www.docker.com/get-started/)
 
-1. In the link above you can download the docker to run RabbitMQ image in your pc using docker
-2. You need to create the following rabbit configuration in any file that you want. You can put the file name like this **docker-compose.yml**:
+1. In the link above you can download the docker to run RabbitMQ, Postgres and the appplication image in your pc using docker.
 
-```yml
-services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    restart: always
-    ports:
-      - 5672:5672
-      - 15672:15672
-    volumes:
-      - ./dados:/var/lib/rabbitmq/
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=123456
-```
-
-3. using the terminal of your choice, you must navigate to the folder that contains the file and type the following command:
+2. using the terminal of your choice, you must navigate to the folder that contains the file and type the following commands:
 
 ```bash
-docker-compose up
+cd docker
 ```
 
-4. This command above start the rabbit config on the port 15672, so if you go to the browser and fill on search bar the following link:
-
+```bash
+docker-compose -f .\docker-compose-prod.yml up 
 ```
-http://localhost:15672
+3. After this command you will see the containers running on your docker desktop app, follow image:
+   
+![Screen image](/src/main/resources/assets/imgs/dockerApp.png)
+
+4. If "application-prod" is not running, you need to run one more time the command:
+```bash
+docker-compose -f .\docker-compose-prod.yml up 
 ```
+5.  I will work on to solve this problem, but this happens because the application container is going up at the same time as the rabbitmq container.
 
-5. you will see this screen:
-
-   ![Screen image](/src/main/resources/assets/imgs/RabbitInitialScreen.png)
-
-6. In the fields that are present you fill the **USERNAME** and **PASSWORD** that are in the configuration file "docker-compose.yml"
-
-## [Postgres](https://www.postgresql.org/download/)
-
-- In the link above you will download postgres
-- You need to configure postgres according to what is in application.yml. If you want to apply other settings, you can make the necessary changes so that everything works normally.
+6. This command above start the rabbit config on the port 15672, application on the port 8080 and Postgres on port 5432.
 
 ## Run project
 
-- By opening the java file and then running the project you will be able to send the HTTP request on the port 8080 using [POSTMAN](https://www.postman.com/downloads/) or any similar application.
+- by running project's containers [POSTMAN](https://www.postman.com/downloads/) 
+ will be available for you to make http requests or any similar application.
 - To see the requests that can be made to the API after starting the application, you can insert the following link in your browser of choice:
--
 
 ```
 http://localhost:8080/swagger-ui/

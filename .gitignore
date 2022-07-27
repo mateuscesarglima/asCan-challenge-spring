@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+### docker ###
+docker/dados
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
